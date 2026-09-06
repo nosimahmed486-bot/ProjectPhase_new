@@ -1,30 +1,16 @@
-// routes/user.js
 const express = require("express");
 const router = express.Router();
+const userController = require("../controllers/users.js");
 
-// SIGNUP - Show signup form
-router.get("/signup", (req, res) => {
-    res.send("Signup page coming soon!");
-});
+// Signup Routes
+router.get("/signup", userController.renderSignupForm);
+router.post("/signup", userController.signup);
 
-// SIGNUP - Handle form submission
-router.post("/signup", (req, res) => {
-    res.send("Signup form submitted!");
-});
+// Login Routes
+router.get("/login", userController.renderLoginForm);
+router.post("/login", userController.login);
 
-// LOGIN - Show login form
-router.get("/login", (req, res) => {
-    res.send("Login page coming soon!");
-});
-
-// LOGIN - Handle form submission
-router.post("/login", (req, res) => {
-    res.send("Login form submitted!");
-});
-
-// LOGOUT
-router.get("/logout", (req, res) => {
-    res.send("Logout successful!");
-});
+// Logout Route
+router.get("/logout", userController.logout);
 
 module.exports = router;
