@@ -1,26 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const listingController = require("../controllers/listings.js");
+const listingController = require("../controllers/listing");
+const wrapAsync = require("../utils/wrapAsync"); // 👈 NEW
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
-// Index Route
-router.get("/", listingController.index);
+router.route("/")
+    .get(wrapAsync(listingController.index))
+    .post(upload.single('listing[image]'), wrapAsync(listingController.create)); // 👈 ADD upload
 
-// New Route
-router.get("/new", listingController.renderNewForm);
+router.route("/:id")
+    .get(wrapAsync(listingController.show))
+    .put(upload.single('listing[image]'), wrapAsync(listingController.update))
+    .delete(wrapAsync(listingController.destroy));
 
-// Show Route
-router.get("/:id", listingController.showListing);
-
-// Create Route
-router.post("/", listingController.createListing);
-
-// Edit Route
-router.get("/:id/edit", listingController.renderEditForm);
-
-// Update Route
-router.put("/:id", listingController.updateListing);
-
-// Delete Route
-router.delete("/:id", listingController.destroyListing);
+// New route (stays separate)
+router.get("/new", wrapAsync(listingController.renderNewForm));
+router.get("/:id/edit", wrapAsync(listingController.renderEditForm));
 
 module.exports = router;

@@ -1,0 +1,50 @@
+<!-- views/listings/new.ejs -->
+<% layout("/layouts/boilerplate") %>
+
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1 class="mb-4">Add New Listing</h1>
+        
+        <form action="/listings" method="POST" enctype="multipart/form-data">
+            <!-- Title -->
+            <div class="mb-3">
+                <label for="title" class="form-label">Title *</label>
+                <input type="text" name="listing[title]" id="title" class="form-control" required>
+            </div>
+            
+            <!-- Description -->
+            <div class="mb-3">
+                <label for="description" class="form-label">Description *</label>
+                <textarea name="listing[description]" id="description" rows="4" class="form-control" required></textarea>
+            </div>
+            
+            <!-- Price -->
+            <div class="mb-3">
+                <label for="price" class="form-label">Price (per night) *</label>
+                <input type="number" name="listing[price]" id="price" class="form-control" required min="0">
+            </div>
+            
+            <!-- Location -->
+            <div class="mb-3">
+                <label for="location" class="form-label">Location *</label>
+                <input type="text" name="listing[location]" id="location" class="form-control" required>
+            </div>
+            
+            <!-- Country -->
+            <div class="mb-3">
+                <label for="country" class="form-label">Country *</label>
+                <input type="text" name="listing[country]" id="country" class="form-control" required>
+            </div>
+            
+            <!-- Image Upload -->
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input type="file" name="listing[image]" id="image" class="form-control" accept="image/*">
+                <small class="text-muted">Optional - upload a photo of your property</small>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Create Listing</button>
+            <a href="/listings" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

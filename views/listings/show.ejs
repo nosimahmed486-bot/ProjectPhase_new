@@ -1,0 +1,71 @@
+<!-- views/listings/show.ejs -->
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-4">
+    <div class="col-md-8 offset-md-2">
+        <h1><%= listing.title %></h1>
+        
+        <!-- Image -->
+        <img src="<%= listing.image.url || 'https://via.placeholder.com/800x400?text=No+Image' %>" 
+             class="img-fluid rounded mb-3" 
+             alt="<%= listing.title %>">
+        
+        <!-- Details -->
+        <p><i class="fas fa-map-marker-alt"></i> <strong><%= listing.location %>, <%= listing.country %></strong></p>
+        <p><%= listing.description %></p>
+        <h3 class="text-success">₹<%= listing.price %> <small class="text-muted">/ night</small></h3>
+        
+        <!-- Owner Info -->
+        <p class="text-muted">Listed by: <strong><%= listing.owner ? listing.owner.username : 'Unknown' %></strong></p>
+        
+        <!-- Edit/Delete Buttons (Only for owner) -->
+        <div class="mt-3">
+            <a href="/listings/<%= listing._id %>/edit" class="btn btn-warning">✏️ Edit</a>
+            
+            <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" class="d-inline">
+                <button class="btn btn-danger">🗑️ Delete</button>
+            </form>
+            
+            <a href="/listings" class="btn btn-secondary">⬅️ Back</a>
+        </div>
+        
+        <hr>
+        
+        <!-- Reviews Section -->
+        <h3>Reviews (<%= listing.reviews.length %>)</h3>
+        
+        <!-- Add Review Form -->
+        <form action="/listings/<%= listing._id %>/reviews" method="POST" class="mb-4">
+            <div class="mb-2">
+                <label class="form-label">Rating</label>
+                <select name="review[rating]" class="form-select">
+                    <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                    <option value="4">⭐⭐⭐⭐ (4)</option>
+                    <option value="3">⭐⭐⭐ (3)</option>
+                    <option value="2">⭐⭐ (2)</option>
+                    <option value="1">⭐ (1)</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Comment</label>
+                <textarea name="review[comment]" class="form-control" rows="2" required></textarea>
+            </div>
+            <button class="btn btn-primary">Submit Review</button>
+        </form>
+        
+        <!-- Display Reviews -->
+        <% if (listing.reviews.length > 0) { %>
+            <% listing.reviews.forEach(review => { %>
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <p class="mb-0"><strong>⭐ <%= review.rating %></strong></p>
+                        <p><%= review.comment %></p>
+                        <small class="text-muted">- <%= review.author ? review.author.username : 'Anonymous' %></small>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p class="text-muted">No reviews yet. Be the first!</p>
+        <% } %>
+    </div>
+</div>
